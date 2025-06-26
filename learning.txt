@@ -1,0 +1,48 @@
+Rsync is a fast and extraordinarily versatile file copying tool. I
+rsync --list-only {target_IP}::
+rsync --list-only {target_IP}::public
+rsync {target_IP}::public/flag.txt flag.txt
+
+Nmap stuff ################################################################
+>nmap -p- --min-rate=1000 -sV {target_IP}
+--min-rate : This is used to specify the minimum number of packets that Nmap should
+send per second; it speeds up the scan as the number goes higher
+-sC: Performs a script scan using the default set of scripts. It is equivalent to --
+script=default. Some of the scripts in this category are considered intrusive and should 
+not be run against a target network without permission.
+-sV: Enables version detection, which will detect what versions are running on what port. 
+
+
+Mongo DB connection:
+./mongosh mongodb://{target_IP}:27017
+
+
+Enumeration serch tools:
+gobuster:
+    https://github.com/danielmiessler/SecLists/raw/master/Discovery/Web-Content/common.txt
+    searcing for directory
+    >sudo gobuster dir -w {wordlist} -u {tarhet ip}
+    >sudo gobuster dir -w {wordlist} --url http://{tarhet ip}/
+    >sudo gobuster dir -w {wordlist} --url http://{tarhet ip}/ -x php,html
+    >gobuster vhost -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://thetoppers.htb
+        vhost : Uses VHOST for brute-forcing
+        -w : Path to the wordlist
+        -u : Specify the URL
+    >>>>>>>>>>>: If using Gobuster version 3.2.0 and above we also have to add the --append-domain<<<<<<<<<
+
+
+
+Connect to remote desktop using xfreerdp:
+>xfreerdp /v:{target_IP} /cert:ignore /u:Administrator
+
+Redis connect:
+redis-cli -h {target_ip}
+
+mssql connection:
+mssql -h {target_IP} -u root
+
+Responder:
+Look at Responder.conf to make sure everything is turned on.
+sudo python3 Responder.py -I tun0
+
+then coneect back to it and see what happens
