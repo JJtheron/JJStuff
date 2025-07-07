@@ -144,4 +144,4 @@ https://academy.hackthebox.eu/course/preview/using-web-proxies
 
 Parrot OS, it is possible to find webshells under the folder 
         ------- /usr/share/webshells/
-
+Read through this https://book.hacktricks.wiki/en/generic-methodologies-and-resources/pentesting-methodology.html
